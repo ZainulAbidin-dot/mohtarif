@@ -46,7 +46,7 @@
   track.addEventListener("transitionend", handleTransitionEnd);
 
   function init() {
-    document.querySelectorAll("[data-image]").forEach((elem) => {
+    document.querySelectorAll("[data-image]").forEach((elem: any) => {
       elem.style.setProperty(
         "--image",
         `url(${elem.getAttribute("data-image")})`,
@@ -84,7 +84,7 @@
   }: {
     track: HTMLElement;
     currentSlide: HTMLElement;
-    targetSlide: HTMLElement;
+    targetSlide: any;
   }) {
     prevBtn.removeEventListener("click", moveToPrevSlide);
     nextBtn.removeEventListener("click", moveToNextSlide);
@@ -111,7 +111,7 @@
   }
 
   function moveToPrevSlide() {
-    const currentSlide = track.querySelector(".current-slide");
+    const currentSlide: any = track.querySelector(".current-slide");
     const prevSlide = currentSlide.previousElementSibling;
     if (!track.classList.contains("sliding")) track.classList.add("sliding");
     moveToSlide({ track, currentSlide, targetSlide: prevSlide });
@@ -121,17 +121,17 @@
     track.classList.remove("sliding");
     prevBtn.addEventListener("click", moveToPrevSlide);
     nextBtn.addEventListener("click", moveToNextSlide);
-    const currentSlide = track.querySelector(".current-slide");
-    if (!currentSlide.dataset.replaceScroll) return;
-    const targetSlide = slides[Number(currentSlide.dataset.replaceScroll)];
+    const currentSlide: any = track.querySelector(".current-slide");
+    if (!currentSlide!.dataset.replaceScroll) return;
+    const targetSlide = slides[Number(currentSlide!.dataset.replaceScroll)];
     track.style.transform = `translateX( ${Number(targetSlide.dataset.index) * -100}%)`;
-    currentSlide
-      .querySelector(".carousel__banner")
+    currentSlide!
+      .querySelector(".carousel__banner")!
       .classList.remove("current-slide");
-    currentSlide.classList.remove("current-slide");
+    currentSlide!.classList.remove("current-slide");
     targetSlide.classList.add("current-slide");
     targetSlide
-      .querySelector(".carousel__banner")
+      .querySelector(".carousel__banner")!
       .classList.add("current-slide");
   }
 </script>
