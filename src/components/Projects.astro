@@ -1,0 +1,75 @@
+---
+import Image from "astro/components/Image.astro";
+const projects = [
+  {
+    img: {
+      url: "/assets/finishing-service.png",
+      alt: "finishing service image",
+    },
+    title: "أعمال التشطيب",
+    subtitle: "(صالة ومطاعم ومقاهي)",
+    btn: {
+      text: "انظر مشاريعنا",
+      link: "/paint-projects"
+    },
+  },
+  {
+    img: {
+      url: "/assets/electric-service.png",
+      alt: "electric service image",
+    },
+    title: "أعمال التركيبات الكهربائية",
+    subtitle: "(صالة ومطاعم ومقاهي)",
+    btn: {
+      text: "انظر مشاريعنا",
+      link: "/electric-projects"
+    },
+  },
+  {
+    img: {
+      url: "/assets/cctv-service.jpg",
+      alt: "cctv service image",
+    },
+    title: "أنظمة السلامة وتركيب كاميرات المراقبة",
+    subtitle: "(صالة ومطاعم ومقاهي)",
+    btn: {
+      text: "انظر مشاريعنا",
+      link: "/cctv-projects"
+    },
+  },
+];
+---
+
+<section id="projects" class="bg-beige py-10" dir="rtl">
+  <div class="mx-auto max-w-2xl">
+    <div class="pt-8 text-start text-4xl font-semibold text-grey-mist">
+      <h2>خدماتنا</h2>
+    </div>
+    <div
+      class="mx-auto flex max-w-2xl items-stretch justify-around gap-10 py-4 text-center sm:py-6 lg:max-w-7xl lg:px-8"
+    >
+      {
+        projects.map((project) => (
+          <div class="flex flex-shrink-0 flex-col items-center">
+            <Image
+              src={project.img.url}
+              alt={project.img.alt}
+              width="150"
+              height="150"
+              class="size-[150px] rounded-full object-cover"
+            />
+            <h6 class="text-lg font-semibold text-beige-heading">
+              {project.title}
+            </h6>
+            <p class="mb-14 text-xs text-beige-p">{project.subtitle}</p>
+            <button class="hover:text-grey-400 mt-auto rounded-full bg-beige-btn-fade px-2 py-1 text-xs font-semibold text-white">
+              <a href={project.btn.link}>
+                {project.btn.text}
+              </a>
+            </button>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>

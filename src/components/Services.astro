@@ -1,0 +1,78 @@
+---
+const services = [
+  {
+    title: "مهندس التصميم",
+    description:
+      "يشمل التصميم المعماري التصميم الداخلي بمخططاته وتصميم المناظر الطبيعية وتصميم الواجهة الخارجية.",
+  },
+  {
+    title: "تنفيذي الرسوم البيانية",
+    description:
+      "ويشمل المخططات المعمارية والكهربائية والميكانيكية ومخطط توزيع الأثاث ومخطط توزيع آلة البا.",
+  },
+  {
+    title: "مبالغ الجدول",
+    description:
+      "وهي القائمة التي يتم فيها ترتيب كافة أعداد وكميات الأصناف والمواد المستخدمة في المشروع.",
+  },
+  {
+    title: "تنفيذ الخدمة",
+    description:
+      "نقدم خدمة تنفيذ التصميم الداخلي. يرافقه الإشراف على المشروع بأكمله.",
+  },
+];
+---
+
+<section id="services" class="bg-white py-10" dir="rtl">
+  <div class="mx-auto max-w-2xl">
+    <div class="pt-8 text-start text-4xl font-semibold text-grey-mist">
+      <h2>مشاريعنا</h2>
+    </div>
+    <div
+      class="mx-auto flex max-w-2xl flex-col items-end justify-around gap-10 py-4 sm:py-6 lg:max-w-7xl lg:px-8"
+    >
+      {
+        services.map((service, index) => {
+          const indexStr = (index + 1).toString().padStart(2, "0");
+          return (
+            <div class="flex flex-row items-center gap-4 ">
+              <div
+                class="flex w-36 flex-shrink-0 flex-col justify-center rounded-t-full bg-beige-heading px-4 py-6 text-center text-white"
+              >
+                <span
+                  aria-hidden="true"
+                  class="mb-2 text-center text-6xl font-bold"
+                >
+                  {indexStr}
+                </span>
+                <h3 class="text-2xl font-bold">{service.title}</h3>
+              </div>
+              <p class="text-xl font-light text-grey-p">
+                {service.description}
+              </p>
+            </div>
+          );
+        })
+      }
+    </div>
+  </div>
+</section>
+
+<script>
+  const serviceTitles = document.querySelectorAll("[data-service-title]");
+
+  function getMaxHeightOfServiceTitles() {
+    const maxHeight = Math.max(
+      ...Array.from(serviceTitles).map((el) => el.clientHeight),
+    );
+    serviceTitles.forEach((el) => {
+      if (el instanceof HTMLElement) {
+        el.style.height = `${maxHeight}px`;
+      }
+    });
+  }
+
+  window.addEventListener("load", getMaxHeightOfServiceTitles);
+
+  window.addEventListener("resize", getMaxHeightOfServiceTitles);
+</script>

@@ -1,0 +1,34 @@
+---
+import Loader from "./shared/Loader.astro";
+import MaxWidthWrapper from "./shared/MaxWidthWrapper.astro";
+---
+
+<!-- Create about us section. On Left there should be an image. on right a heading and some paragraph and some call to action button. Use tailwind for styling -->
+<section class="bg-gray-100 py-20" id="about" dir="rtl">
+  <MaxWidthWrapper>
+    <div class="flex flex-col items-center justify-center gap-4 md:flex-row">
+      <div class="relative aspect-square w-28 md:w-1/3">
+        <img
+          src="/assets/logo.png"
+          alt="about us"
+          class="h-fit w-full rounded-lg object-cover shadow-lg"
+          onload="this.nextElementSibling.remove();"
+        />
+        <!-- Pulse animation indicating loading of image -->
+        <Loader />
+      </div>
+      <div class="md:w-2/3">
+        <h2 class="text-3xl font-bold text-grey-mist">معلومات عنا</h2>
+        <p class="mt-4 text-gray-600">
+          .مؤسسة المحترف هي رائدة في مجال التصميم الداخلي والتنفيذ هدفها تحقيق رضا العميل من خلال تصميم مشروعه بطريقة مبتكرة وحديثة، حيث نبدأ بالإشــــراف والمتابعــة وننتهي بإتمـام المشروع وتنفيذه بدقة وإتقان
+        </p>
+        <button
+          class="mt-4 rounded-md bg-beige-btn-fade px-4 py-2 text-white shadow-lg"
+          >
+          <a href="/info">يتعلم أكثر</a>
+          </button
+        >
+      </div>
+    </div>
+  </MaxWidthWrapper>
+</section>

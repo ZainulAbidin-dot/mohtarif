@@ -1,0 +1,25 @@
+---
+interface Props {
+  backgroundImageUrl: string;
+}
+
+const { backgroundImageUrl } = Astro.props;
+---
+
+<div class="relative bg-cover bg-center" style={`background-image: url('${backgroundImageUrl}'); height: calc(100vh - var(--_navbar-height, 0))`} data-banner>
+  <div class="absolute inset-0 bg-black bg-opacity-30">
+    <slot />
+  </div>
+</div>  
+
+<script>
+  const navbar = document.querySelector('[data-navbar]');
+  const navbarHeight = navbar?.clientHeight || 0;
+
+  const banner = document.querySelector('[data-banner]') as HTMLElement;
+  if(banner) {
+    banner.style.setProperty('--_navbar-height', `${navbarHeight}px`);
+  }
+
+
+</script>

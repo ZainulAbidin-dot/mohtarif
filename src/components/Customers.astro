@@ -1,0 +1,135 @@
+---
+import Image from 'astro/components/Image.astro';
+
+const customers = [
+    { src: '/assets/cctv-service.jpg', alt: 'cctv' },
+    { src: '/assets/electric-service.png', alt: 'electric' },
+    { src: '/assets/finishing-service.png', alt: 'finishing' },
+    { src: '/assets/cctv-service.jpg', alt: 'cctv' },
+    { src: '/assets/electric-service.png', alt: 'electric' },
+    { src: '/assets/finishing-service.png', alt: 'finishing' },
+    { src: '/assets/cctv-service.jpg', alt: 'cctv' },
+    { src: '/assets/electric-service.png', alt: 'electric' },
+]
+---
+
+<section id="projects" class="bg-beige py-10">
+    <div class="mx-auto max-w-2xl">
+        <div class="text-grey-mist pt-8 text-4xl font-semibold text-right">
+            <h2>عملائنا</h2>
+        </div>
+        <div class="">
+            <div class="left"></div>
+                <div class="marquee marquee--8">
+                    {customers.map(customer => (
+                        <div class="marquee__item">
+                            <Image src={customer.src} alt={customer.alt} height={8*16} width={8*16} class="size-32 rounded-full object-cover" />
+                        </div>
+                    ))}
+                </div>
+            <div class="right"></div>
+        </div>
+    </div>
+</section>
+
+<style>
+    @keyframes slide {
+        from {
+            transform: translateX(0);
+        }
+        to {
+            transform: translateX(-100%);
+        }
+    }
+
+    .logos {
+        overflow: hidden;
+        padding: 60px 0;
+        white-space: nowrap;
+    }
+
+    .logo-slide {
+        display: flex;
+        animation: 10s slide infinite linear;
+    }
+
+    .left:hover {
+            animation-play-state: paused;
+            cursor: pointer;
+    }
+
+
+    .marquee {
+    display: flex;
+    align-items: center;
+    block-size: var(--marquee-item-height);
+    margin-block: 4rem;
+    position: relative;
+    overflow-x: hidden;
+    mask-image: linear-gradient(
+        to right,
+        hsl(0 0% 0% / 0),
+        hsl(0 0% 0% / 1) 20%,
+        hsl(0 0% 0% / 1) 80%,
+        hsl(0 0% 0% / 0)
+    );
+    }
+
+    .marquee--8 {
+    --marquee-item-width: 130px;
+    --marquee-item-height: 150px;
+    --marquee-duration: 36s;
+    --marquee-items: 8;
+    }
+
+
+    .marquee__item {
+    --marquee-item-offset: max(
+        calc(var(--marquee-item-width) * var(--marquee-items)),
+        calc(100% + var(--marquee-item-width))
+    );
+    --marquee-delay: calc(var(--marquee-duration) / var(--marquee-items) * (var(--marquee-items) - var(--marquee-item-index)) * -1);
+    position: absolute;
+    inset-inline-start: var(--marquee-item-offset);
+    transform: translateX(-50%);
+    animation: go linear var(--marquee-duration) var(--marquee-delay, 0s) infinite;
+    }
+
+    .marquee--8 .marquee__item:nth-of-type(1) {
+    --marquee-item-index: 1;
+    }
+
+    .marquee--8 .marquee__item:nth-of-type(2) {
+    --marquee-item-index: 2;
+    }
+
+    .marquee--8 .marquee__item:nth-of-type(3) {
+    --marquee-item-index: 3;
+    }
+
+    .marquee--8 .marquee__item:nth-of-type(4) {
+    --marquee-item-index: 4;
+    }
+
+    .marquee--8 .marquee__item:nth-of-type(5) {
+    --marquee-item-index: 5;
+    }
+
+    .marquee--8 .marquee__item:nth-of-type(6) {
+    --marquee-item-index: 6;
+    }
+
+    .marquee--8 .marquee__item:nth-of-type(7) {
+    --marquee-item-index: 7;
+    }
+
+    .marquee--8 .marquee__item:nth-of-type(8) {
+    --marquee-item-index: 8;
+    }
+
+    @keyframes go {
+    to {  
+        inset-inline-start: calc(var(--marquee-item-width) * -1);
+    }
+    }
+</style>

@@ -1,0 +1,201 @@
+<section class="carousel | mb-4">
+  <div class="carousel__track-container">
+    <div class="carousel__track">
+      <slot />
+    </div>
+  </div>
+</section>
+
+<div class="carousel__btns">
+  <button class="carousel__btn carousel__btn--left"
+    ><i class="fa-solid fa-chevron-left"></i>
+  </button>
+  <button class="carousel__btn carousel__btn--right"
+    ><i class="fa-solid fa-chevron-right"></i>
+  </button>
+</div>
+
+<script>
+  const track = document.querySelector(".carousel__track") as HTMLDivElement;
+  let slides = Array.from(track.children) as HTMLElement[];
+
+  const nextBtn = document.querySelector(
+    ".carousel__btn--right",
+  ) as HTMLButtonElement;
+
+  const prevBtn = document.querySelector(
+    ".carousel__btn--left",
+  ) as HTMLButtonElement;
+
+  let intervalId: number | undefined;
+
+  window.addEventListener("blur", () => {
+    if (intervalId) clearInterval(intervalId);
+  });
+
+  window.addEventListener("focus", () => {
+    intervalId = setInterval(moveToNextSlide, 6000);
+  });
+
+  document.addEventListener("DOMContentLoaded", init);
+
+  nextBtn.addEventListener("click", moveToNextSlide);
+
+  prevBtn.addEventListener("click", moveToPrevSlide);
+
+  track.addEventListener("transitionend", handleTransitionEnd);
+
+  function init() {
+    document.querySelectorAll("[data-image]").forEach((elem) => {
+      elem.style.setProperty(
+        "--image",
+        `url(${elem.getAttribute("data-image")})`,
+      );
+    });
+
+    const firstSlideClone = slides[0].cloneNode(true) as HTMLElement;
+    firstSlideClone.dataset.replaceScroll = "1";
+
+    const lastSlideClone = slides[slides.length - 1].cloneNode(
+      true,
+    ) as HTMLElement;
+
+    lastSlideClone.dataset.replaceScroll = slides.length.toString();
+
+    slides = [lastSlideClone, ...slides, firstSlideClone];
+
+    slides.forEach((slide, index) => {
+      slide.dataset.index = index.toString();
+      if (index === 1) {
+        slide.classList.add("current-slide");
+      }
+    });
+
+    while (track.firstChild) track.removeChild(track.firstChild);
+    slides.forEach((slide) => track.appendChild(slide));
+    track.style.transform = `translateX(-100%)`;
+    if (intervalId) intervalId = setInterval(moveToNextSlide, 6000);
+  }
+
+  function moveToSlide({
+    track,
+    currentSlide,
+    targetSlide,
+  }: {
+    track: HTMLElement;
+    currentSlide: HTMLElement;
+    targetSlide: HTMLElement;
+  }) {
+    prevBtn.removeEventListener("click", moveToPrevSlide);
+    nextBtn.removeEventListener("click", moveToNextSlide);
+
+    track.style.transform = `translateX( ${Number(targetSlide.dataset.index) * -100}%)`;
+    currentSlide
+      .querySelector(".carousel__banner")
+      ?.classList.remove("current-slide");
+    currentSlide.classList.remove("current-slide");
+    targetSlide.classList.add("current-slide");
+    targetSlide
+      .querySelector(".carousel__banner")
+      ?.classList.add("current-slide");
+
+    clearInterval(intervalId);
+    intervalId = setInterval(moveToNextSlide, 6000);
+  }
+
+  function moveToNextSlide() {
+    const currentSlide = track.querySelector(".current-slide") as HTMLElement;
+    const nextSlide = currentSlide.nextElementSibling;
+    if (!track.classList.contains("sliding")) track.classList.add("sliding");
+    moveToSlide({ track, currentSlide, targetSlide: nextSlide });
+  }
+
+  function moveToPrevSlide() {
+    const currentSlide = track.querySelector(".current-slide");
+    const prevSlide = currentSlide.previousElementSibling;
+    if (!track.classList.contains("sliding")) track.classList.add("sliding");
+    moveToSlide({ track, currentSlide, targetSlide: prevSlide });
+  }
+
+  function handleTransitionEnd() {
+    track.classList.remove("sliding");
+    prevBtn.addEventListener("click", moveToPrevSlide);
+    nextBtn.addEventListener("click", moveToNextSlide);
+    const currentSlide = track.querySelector(".current-slide");
+    if (!currentSlide.dataset.replaceScroll) return;
+    const targetSlide = slides[Number(currentSlide.dataset.replaceScroll)];
+    track.style.transform = `translateX( ${Number(targetSlide.dataset.index) * -100}%)`;
+    currentSlide
+      .querySelector(".carousel__banner")
+      .classList.remove("current-slide");
+    currentSlide.classList.remove("current-slide");
+    targetSlide.classList.add("current-slide");
+    targetSlide
+      .querySelector(".carousel__banner")
+      .classList.add("current-slide");
+  }
+</script>
+
+<style>
+  .carousel {
+    height: calc(100vh - 110px);
+    width: 100%;
+    margin: 0 auto;
+    position: relative;
+    isolation: isolate;
+  }
+
+  .carousel__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .carousel__track-container {
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .carousel__track {
+    height: 100%;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    position: relative;
+  }
+
+  .sliding {
+    transition: transform 500ms ease-in;
+  }
+
+  .carousel__btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+
+    border: 0;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.8);
+    width: 50px;
+    height: 50px;
+    z-index: 1;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    @media screen and (max-width: 768px) {
+      display: none;
+    }
+  }
+
+  .carousel__btn--left {
+    left: 40px;
+  }
+
+  .carousel__btn--right {
+    right: 40px;
+  }
+</style>

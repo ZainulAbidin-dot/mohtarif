@@ -1,0 +1,65 @@
+---
+import Loader from "../../components/shared/Loader.astro";
+import MaxWidthWrapper from "../../components/shared/MaxWidthWrapper.astro";
+import Layout from "../../layouts/Layout.astro";
+
+const data = {
+  title: "Service 01",
+  description: "Lorem ipsum dolor sit amet consectetur adipisicing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex eacommodo consequat.",
+  images: [
+    {
+      src: "https://source.unsplash.com/500x500/?sky",
+      alt: "service 01",
+    },
+    {
+      src: "https://source.unsplash.com/500x500/?water",
+      alt: "service 02",
+    },
+    {
+      src: "https://source.unsplash.com/500x500/?mountain",
+      alt: "service 03",
+    },
+    {
+      src: "https://source.unsplash.com/500x500/?mountain",
+      alt: "service 03",
+    },
+  ],
+};
+
+const IMAGE_MAX_SIZE = 250;
+---
+
+<Layout title="Services">
+  <section class="bg-gray-100 py-20" dir="ltr">
+    <MaxWidthWrapper>
+      <div class="flex flex-col justify-center gap-4">
+        <div 
+        class="flex justify-center gap-4 flex-wrap"
+        >
+          {data.images.map((image) => (
+            <div class="relative aspect-square"
+              style={`max-width: ${IMAGE_MAX_SIZE}px;`}
+            >
+              <img
+                src={image.src}
+                alt={image.alt}
+                class="h-full w-full rounded-lg object-cover shadow-lg"
+                onload="this.nextElementSibling.remove();"
+              />
+              <!-- Pulse animation indicating loading of image -->
+              <Loader />
+            </div>
+          ))}
+        </div>
+        <div class="md">
+          <h2 class="text-3xl font-bold text-grey-mist">{data.title}</h2>
+          <p class="mt-4 text-gray-600">{data.description}</p>
+          <p class="mt-4 text-gray-600">{data.description}</p>
+          <p class="mt-4 text-gray-600">{data.description}</p>
+          <p class="mt-4 text-gray-600">{data.description}</p>
+        </div>
+      </div>
+    </MaxWidthWrapper>
+  </section>
+</Layout>
+
